@@ -21,6 +21,10 @@ app.get('/', (req, res) =>{
     res.json({message: 'Hello Tung Smart Phan'})
 })
 
+
+//Database MongoDB
+import './config/database'
+
 //server listening
 const PORT = process.env.PORT || 5000
 app.listen(PORT,() => {
