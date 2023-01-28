@@ -8,7 +8,7 @@ const authCtrl = {
     try {
       const { name, account, password } = req.body;
       const user = await Users.findOne({ account });
-      if (!user)
+      if (user)
         return res
           .status(400)
           .json({ message: "Email or phone already registered" });
