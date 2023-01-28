@@ -22,9 +22,12 @@ export const validRegister = async (
     return res.status(400).json({ message: "Email or phone number format is incorrect" });
   }
 
-  if(password) {
+  if(password.length < 6) {
     return res.status(400).json({ message: "Password must be at least 6 chars. "});
   }
+
+  next();
+
 };
 
 function validPhone(phone: string) {
