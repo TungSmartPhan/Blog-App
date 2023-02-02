@@ -1,3 +1,4 @@
+import { generateActiveToken } from "./../config/generateToken";
 import { Request, Response } from "express";
 import Users from "../models/userModel";
 import bcrypt from "bcrypt";
@@ -15,13 +16,15 @@ const authCtrl = {
 
       const passwordHash = await bcrypt.hash(password, 12);
 
-      const newUser = new Users({
+      const newUser = {
         name,
         account,
         password: passwordHash,
-      });
+      };
 
-      res.json({ message: "Register Successfully", data: newUser });
+      const active_token = generateActiveToken(newUser);
+
+      res.json({ message: "Register Successfully", data: newUser, active_token });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: error });

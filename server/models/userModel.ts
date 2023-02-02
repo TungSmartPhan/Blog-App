@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/fpt-greenwich-vietnam-da-nang/image/upload/v1641319264/avatar/avatar_fco8ch.jpg",
     },
+    role: {
+      type: String,
+      default: "user", //admin
+    },
     type: {
       type: String,
       default: "normal", //fast
