@@ -18,17 +18,20 @@ const sendMail = async (to: string, url: string, txt: string) => {
   oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
   try {
-    const access_token = await oAuth2Client.getAccessToken();
+    const accessToken = await oAuth2Client.getAccessToken();
 
     const transport = nodemailer.createTransport({
-      service: "mail",
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // true for TLS 465, false for other ports
+      service: "gmail",
       auth: {
         type: "OAuth2",
         user: SENDER_MAIL,
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
-        refresh_token: REFRESH_TOKEN,
-        access_token,
+        refreshToken: REFRESH_TOKEN,
+        accessToken,
       },
     });
     const mailOptions = {
@@ -157,7 +160,7 @@ const sendMail = async (to: string, url: string, txt: string) => {
                          <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                            <tr>
                             <td align="center" style="padding:0;Margin:0;padding-bottom:10px"><!--[if mso]><a href="" target="_blank" hidden>
-        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" esdevVmlButton href="" 
+        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" esdevVmlButton href=""
                       style="height:44px; v-text-anchor:middle; width:136px" arcsize="11%" strokecolor="#5c68e2" strokeweight="2px" fillcolor="#5c68e2">
           <w:anchorlock></w:anchorlock>
           <center style='color:#ffffff; font-family:arial, "helvetica neue", helvetica, sans-serif; font-size:18px; font-weight:400; line-height:18px;  mso-text-raise:1px'${url}>Activate</center>
@@ -224,6 +227,7 @@ const sendMail = async (to: string, url: string, txt: string) => {
     };
 
     const result = await transport.sendMail(mailOptions);
+    console.log("result : ", result);
     return result;
   } catch (error) {
     console.log("error: ", error);
